@@ -41,29 +41,27 @@ export default function Vans() {
         })
     }
 
-    /**
-     * Challenges:
-     * 1. Conditionally render the "Clear filter" button only if
-     *    there's a `type` filter currently applied in the search params
-     *
-     * 2. TBA
-     */
-
     return (
         <div className="van-list-container">
             <h1>Explore our van options</h1>
             <div className="van-list-filter-buttons">
                 <button
                     onClick={() => handleFilterChange("type", "simple")}
-                    className="van-type simple"
+                    className={
+                        `van-type simple ${typeFilter === "simple" ? "selected" : ""}`
+                    }
                 >Simple</button>
                 <button
                     onClick={() => handleFilterChange("type", "luxury")}
-                    className="van-type luxury"
+                    className={
+                        `van-type luxury ${typeFilter === "luxury" ? "selected" : ""}`
+                    }
                 >Luxury</button>
                 <button
                     onClick={() => handleFilterChange("type", "rugged")}
-                    className="van-type rugged"
+                    className={
+                        `van-type rugged ${typeFilter === "rugged" ? "selected" : ""}`
+                    }
                 >Rugged</button>
 
                 {typeFilter ? (
