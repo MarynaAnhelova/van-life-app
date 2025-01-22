@@ -1,9 +1,23 @@
 import React from "react"
-import { useLoaderData, useNavigate, redirect } from "react-router-dom"
+import {
+    useLoaderData,
+    useNavigate,
+    redirect,
+    Form
+} from "react-router-dom"
 import { loginUser } from "../api"
 
 export function loader({ request }) {
     return new URL(request.url).searchParams.get("message")
+}
+
+export async function action({ request }) {
+    const formData = await request.formData()
+    const email = formData.get("email")
+    const password = formData.get("password")
+    console.log(email, password)
+
+    return null
 }
 
 export default function Login() {
@@ -39,7 +53,7 @@ export default function Login() {
             {message && <h3 className="red">{message}</h3>}
             {error && <h3 className="red">{error.message}</h3>}
 
-            <form onSubmit={handleSubmit} className="login-form">
+            <Form method="post" className="login-form">
                 <input
                     name="email"
                     onChange={handleChange}
@@ -62,7 +76,7 @@ export default function Login() {
                         : "Log in"
                     }
                 </button>
-            </form>
+            </Form>
         </div>
     )
 }
