@@ -1,7 +1,7 @@
 import React from "react"
 import {
     useLoaderData,
-    useNavigate,
+    useNavigation,
     Form,
     redirect,
     useActionData
@@ -11,6 +11,12 @@ import { loginUser } from "../api"
 export function loader({ request }) {
     return new URL(request.url).searchParams.get("message")
 }
+
+/**
+ * Challenge: Remove error handling from the component state
+ * and and a try...catch to the action to better handle the
+ * errors, just like we just practiced.
+ */
 
 export async function action({ request }) {
     const formData = await request.formData()
@@ -26,20 +32,9 @@ export async function action({ request }) {
 }
 
 export default function Login() {
-    const [status, setStatus] = React.useState("idle")
     const errorMessage = useActionData()
     const message = useLoaderData()
-    const navigate = useNavigate()
-
-    function handleSubmit(e) {
-        e.preventDefault()
-        setStatus("submitting")
-        loginUser(loginFormData)
-            .then(data => {
-                navigate("/host", { replace: true })
-            })
-            .finally(() => setStatus("idle"))
-    }
+    const navigation = useNavigation()
 
     return (
         <div className="login-container">
@@ -63,9 +58,9 @@ export default function Login() {
                     placeholder="Password"
                 />
                 <button
-                    disabled={status === "submitting"}
+                    disabled={navigation.state === "submitting"}
                 >
-                    {status === "submitting"
+                    {navigation.state === "submitting"
                         ? "Logging in..."
                         : "Log in"
                     }
