@@ -12,6 +12,7 @@ export async function loader({ request }) {
 export default function Dashboard() {
     const loaderData = useLoaderData()
 
+
     function renderVanElements(vans) {
         const hostVansEls = vans.map((van) => (
             <div className="host-van-single" key={van.id}>
